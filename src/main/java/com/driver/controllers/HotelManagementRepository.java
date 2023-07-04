@@ -9,6 +9,8 @@ import java.util.*;
 @Repository
 public class HotelManagementRepository {
     private final Map<String, Hotel> hotelDb = new HashMap<>();
+    private final Map<String,Booking>bookingMap=new HashMap<>();
+
 
     public String addHotel( Hotel hotel) {
         if (hotel == null || hotel.getHotelName() == null) {
@@ -29,10 +31,6 @@ public class HotelManagementRepository {
         return aadharCardNo;
     }
 
-    private Integer generateRandomAadharCardNo() {
-        Random random = new Random();
-        return 100000000 + random.nextInt(900000000);
-    }
     public String getHotelWithMostFacilities() {
         String hotelWithMostFacilities = "";
         int maxFacilities = 0;
@@ -62,6 +60,7 @@ public class HotelManagementRepository {
 
         // Calculate the total amount paid by the person based on the number of rooms booked and price of the room per night
         int totalAmountPaid = booking.getNoOfRooms() * booking.getAmountToBePaid();
+        bookingMap.put(bookingId,booking);
 
         // Check if there are enough rooms available in the hotel
         Hotel hotel = hotelDb.get(booking.getHotelName());
@@ -77,10 +76,12 @@ public class HotelManagementRepository {
     public int getBookings(Integer aadharCard) {
         // Get bookings done by a person based on aadharCard
         // Return the count of bookings
-        int count = 0;
-
-        Booking booking=null;
-        count+= booking.getBookingAadharCard();
+        int count=0;
+        for(String key:bookingMap.keySet()){
+            if(aadharCard.equals(bookingMap.get(key).getBookingAadharCard())){
+                count++;
+            }
+        }
         return count;
     }
     public Hotel updateFacilities(List<Facility> newFacilities, String hotelName) {
