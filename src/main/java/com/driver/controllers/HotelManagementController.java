@@ -58,7 +58,8 @@ HotelManagementService hotelManagementService=new HotelManagementService();
         //Calculate the total amount paid by the person based on no. of rooms booked and price of the room per night.
         //If there arent enough rooms available in the hotel that we are trying to book return -1 
         //in other case return total amount paid 
-        hotelManagementService.bookARoom(booking);
+       HotelManagementService hotelManagementService1=null;
+        hotelManagementService1 = hotelManagementService;
 //        if (amountToBePaid == -1) {
 //            return null; // Return null or handle the error case as per your requirement
 //        }
