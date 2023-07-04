@@ -49,9 +49,29 @@ public class HotelManagementRepository {
 
         return hotelWithMostFacilities;
     }
-    public void bookARoom( Booking booking) {
-        UUID bookingId = UUID.randomUUID();
-        booking.setBookingId(bookingId.toString());
+    public int bookARoom( Booking booking) {
+
+        //The booking object coming from postman will have all the attributes except bookingId and amountToBePaid;
+        //Have bookingId as a random UUID generated String
+        //save the booking Entity and keep the bookingId as a primary key
+        //Calculate the total amount paid by the person based on no. of rooms booked and price of the room per night.
+        //If there arent enough rooms available in the hotel that we are trying to book return -1
+        //in other case return total amount paid
+        String bookingId = UUID.randomUUID().toString();
+        booking.setBookingId(bookingId);
+
+        // Calculate the total amount paid by the person based on the number of rooms booked and price of the room per night
+        int totalAmountPaid = booking.getNoOfRooms() * booking.getAmountToBePaid();
+
+        // Check if there are enough rooms available in the hotel
+        Hotel hotel = hotelDb.get(booking.getHotelName());
+        if (hotel != null && hotel.getAvailableRooms() >= booking.getNoOfRooms()) {
+            // Update the number of available rooms in the hotel
+            hotel.setAvailableRooms(hotel.getAvailableRooms() - booking.getNoOfRooms());
+            return totalAmountPaid;
+        } else {
+            return -1; // Not enough rooms available
+        }
 
     }
     public int getBookings(Integer aadharCard) {
