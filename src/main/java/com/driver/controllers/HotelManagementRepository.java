@@ -23,8 +23,8 @@ public class HotelManagementRepository {
 
 }
     public Integer addUser( User user) {
-        Integer aadharCardNo = generateRandomAadharCardNo();
-        user.setaadharCardNo(aadharCardNo);
+        Integer aadharCardNo = user.getaadharCardNo();
+        //user.setaadharCardNo(aadharCardNo);
         // Add user to the database or perform any necessary operations
         return aadharCardNo;
     }
