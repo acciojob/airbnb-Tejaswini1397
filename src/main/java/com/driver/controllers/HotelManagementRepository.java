@@ -96,7 +96,7 @@ public class HotelManagementRepository {
         }
 
         hotel.setFacilities(new ArrayList<>(facilities));
-        hotelDb.put(hotel.getHotelName(), hotel);
+        hotelDb.put(hotelName, hotel);
         return hotel;
     }
 
