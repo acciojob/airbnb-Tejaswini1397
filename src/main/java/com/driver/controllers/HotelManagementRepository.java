@@ -77,7 +77,11 @@ public class HotelManagementRepository {
     public int getBookings(Integer aadharCard) {
         // Get bookings done by a person based on aadharCard
         // Return the count of bookings
-        return 0;
+        int count = 0;
+
+        Booking booking=null;
+        count+= booking.getBookingAadharCard();
+        return count;
     }
     public Hotel updateFacilities(List<Facility> newFacilities, String hotelName) {
         Hotel hotel = hotelDb.get(hotelName);
