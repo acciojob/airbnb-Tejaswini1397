@@ -9,7 +9,9 @@ import java.util.*;
 @Repository
 public class HotelManagementRepository {
     private final Map<String, Hotel> hotelDb = new HashMap<>();
+    private final Map<Integer,User>userMap=new HashMap<>();
     private final Map<String,Booking>bookingMap=new HashMap<>();
+    private final Map<String,Integer>userRent=new HashMap<>();
 
 
     public String addHotel( Hotel hotel) {
@@ -26,26 +28,42 @@ public class HotelManagementRepository {
 }
     public Integer addUser( User user) {
         Integer aadharCardNo = user.getaadharCardNo();
-        //user.setaadharCardNo(aadharCardNo);
+      userMap.put(aadharCardNo,user);
         // Add user to the database or perform any necessary operations
         return aadharCardNo;
     }
 
     public String getHotelWithMostFacilities() {
-        String hotelWithMostFacilities = "";
-        int maxFacilities = 0;
+//        String hotelWithMostFacilities = "";
+//        int maxFacilities = 0;
+//
+//        for (Hotel hotel : hotelDb.values()) {
+//            int numFacilities = hotel.getFacilities().size();
+//            if (numFacilities > maxFacilities) {
+//                maxFacilities = numFacilities;
+//                hotelWithMostFacilities = hotel.getHotelName();
+//            } else if (numFacilities == maxFacilities && hotel.getHotelName().compareTo(hotelWithMostFacilities) < 0) {
+//                hotelWithMostFacilities = hotel.getHotelName();
+//            }
+//        }
+//
+//        return hotelWithMostFacilities;
+        int maxFacility=0;
+        List<String> hotelNames = new ArrayList<>();
 
-        for (Hotel hotel : hotelDb.values()) {
-            int numFacilities = hotel.getFacilities().size();
-            if (numFacilities > maxFacilities) {
-                maxFacilities = numFacilities;
-                hotelWithMostFacilities = hotel.getHotelName();
-            } else if (numFacilities == maxFacilities && hotel.getHotelName().compareTo(hotelWithMostFacilities) < 0) {
-                hotelWithMostFacilities = hotel.getHotelName();
+        for(String key:hotelDb.keySet()){
+            List<Facility>facilities=hotelDb.get(key).getFacilities();
+            maxFacility=Math.max(maxFacility,facilities.size());
+        }
+        if(maxFacility==0) return "";
+        for(String key:hotelDb.keySet()){
+            List<Facility>facilities=hotelDb.get(key).getFacilities();
+            if(maxFacility==facilities.size()){
+                hotelNames.add(key);
             }
         }
-
-        return hotelWithMostFacilities;
+        Collections.sort(hotelNames);
+        return hotelNames.get(0);
     }
     public int bookARoom( Booking booking) {
 
